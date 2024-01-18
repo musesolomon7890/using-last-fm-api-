@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="artist-name">Artist Name:</label>
+                <input type="text" class="form-control" id="artist-name" placeholder="Enter artist name">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="albuminfo()">Submit</button>
+        </form>
+        <div class="card mt-3" id="album-card" style="display: none;">
+            <div class="card-body">
+                <h5 class="card-title" id="artist-name-display"></h5>
+                <ul class="list-group" id="album-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        function albuminfo() {
+            var artistName = document.getElementById("artist-name").value;
+            var apiKey = "eed51f3150bbef812f7cce5ac3c9ed8b";
+            var ap = new XMLHttpRequest();
+            var url = "https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&api_key=" + apiKey + "&format=json";
+            var ap = new XMLHttpRequest();
+            ap.open("GET", url, true);
+            ap.onreadystatechange = function() {
+                if (ap.readyState == 4 && ap.status == 200) {
+                    var data = JSON.parse(ap.responseText);
+                    var albums = data.topalbums.album;
+                    var albumList = document.getElementById("album-list");
+                    albumList.innerHTML = "";
+                    for (var i = 0; i < albums.length; i++) {
+                        var album = albums[i];
+                        var albumName = album.name;
+                        var albumUrl = album.url;
+                        var albumImage = album.image[2]["#text"];
+                        var listItem = document.createElement("li");
+                        listItem.className = "list-group-item";
+                        listItem.innerHTML = "<img src='" + albumImage + "' class='mr-3' alt='Album Cover' width='64' height='64'><a href='" + albumUrl + "' target='_blank'>" + albumName + "</a>";
+                        albumList.appendChild(listItem);
+                    }
+                    document.getElementById("artist-name-display").innerHTML = artistName;
+                    document.getElementById("album-card").style.display = "block";
+                }
+            };
+            ap.send();
+        }
+    </script>
+</body>
+</html>
