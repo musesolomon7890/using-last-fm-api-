@@ -25,7 +25,7 @@
             var artistName = document.getElementById("artist-name").value;
             var apiKey = "eed51f3150bbef812f7cce5ac3c9ed8b";
             var ap = new XMLHttpRequest();
-            var url = "https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&api_key=" + apiKey + "&format=json";
+            var url = "//ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&api_key=" + apiKey + "&format=json";
             var ap = new XMLHttpRequest();
             ap.open("GET", url, true);
             ap.onreadystatechange = function() {
